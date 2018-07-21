@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Title</title>
+</head>
+<body>
+<div class="showing">
+    <h2>SpringBoot+Mybatis+Redis</h2>
+    <div style="width:500px;margin:20px auto;text-align: center">
+        <table align="center" border="1" cellspacing="0">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <td>编辑</td>
+                <td>删除</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="c: ${pageInfo.list}">
+                <td align="center" th:text="${c.id}"></td>
+                <td align="center" th:text="${c.name}"></td>
+                <td align="center" ><a th:href="@{/category/{start}/{id}(id=${c.id},start=${pageInfo.pageNum})}">编辑</a></td>
+                <td align="center" >
+                    <form  th:action="@{/category/{id}(id=${c.id})}" action="/category" method="post">
+                        <input type="hidden" name="_method" value="DELETE"/>
+                        <button type="submit">删除</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br />
+        <div>
+            <a th:href="@{/category(start=1)}">[首  页]</a>
+            <a th:href="@{/category(start=${pageInfo.pageNum -1})}">[上一页]</a>
+            <a th:href="@{/category(start=${pageInfo.pageNum +1})}">[下一页]</a>
+            <a th:href="@{/category(start=${pageInfo.pages})}">[末  页]</a>
+        </div>
+        <form action="/category" method="post">
+            <!--修改提交方式为PUT-->
+            <input type="hidden" name="_method" value="PUT"/>
+            name:<input name="name"/><br/>
+            <button type="submit">提交</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
